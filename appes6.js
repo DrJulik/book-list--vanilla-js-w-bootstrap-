@@ -74,9 +74,8 @@ filterBooks() {
 
     // loop through
     for (i = 0; i < bookRow.length; i++) {
-      let td = bookRow[i].getElementsByTagName("td")[0];
-      // let td1 = bookRow[i].getElementsByTagName("td")[1];
-      // let td2 = bookRow[i].getElementsByTagName("td")[2];
+      let td = bookRow[i].getElementsByClassName("item")[0];
+
       
     if (td) {
       let txtValue = td.textContent || td.innerText;
@@ -86,35 +85,77 @@ filterBooks() {
       bookRow[i].style.display = "none";
     }
     }
-
-    // if (td1) {
-    //   let txtValue = td1.textContent || td1.innerText;
-    // if (txtValue.toUpperCase().indexOf(filter) > -1) {
-    //   bookRow[i].style.display = "";
-    // } else {
-    //   bookRow[i].style.display = "none";
-    // }
-    // }
-
-    // if (td2) {
-    //   let txtValue = td2.textContent || td2.innerText;
-    // if (txtValue.toUpperCase().indexOf(filter) > -1) {
-    //   bookRow[i].style.display = "";
-    // } else {
-    //   bookRow[i].style.display = "none";
-    // }
-    // }
    }
-  //  console.log(a);
     
     
   })
 
 }
 
-// sortBooks () {
+sortBooks(n) {
+  function sortT(){
+    // vars
+    let table = document.getElementById('table'),
+        i,
+        x,
+        y,
+        shouldSwitch,
+        switchCount = 0,
+        rows = document.getElementsByClassName('book-entry'),
+        switching = true;
+    //sorting direction to ascending:
+    let dir = "asc"; 
+    /* Make a loop that will continue until
+    no switching has been done: */
+    while (switching) {
+      // Start by saying: no switching is done:
+      switching = false;
+      /* Loop through all table rows (except the
+      first, which contains table headers): */
+      for (i = 0; i < (rows.length - 1); i++) {
+        // Start by saying there should be no switching:
+        shouldSwitch = false;
+        /* Get the two elements you want to compare,
+        one from current row and one from the next: */
+        x = rows[i].getElementsByClassName("item")[n];
+        y = rows[i + 1].getElementsByClassName("item")[n];
+        /* Check if the two rows should switch place,
+        based on the direction, asc or desc: */
+        if (dir == "asc") {
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            // If so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
+          }
+        } else if (dir == "desc") {
+          if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+            // If so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
+          }
+        }
+      }
+      if (shouldSwitch) {
+        /* If a switch has been marked, make the switch
+        and mark that a switch has been done: */
+        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+        switching = true;
+        // Each time a switch is done, increase this count by 1:
+        switchCount ++; 
+      } else {
+        /* If no switching has been done AND the direction is "asc",
+        set the direction to "desc" and run the while loop again. */
+        if (switchCount == 0 && dir == "asc") {
+          dir = "desc";
+          switching = true;
+        }
+      }
+    }
+  } 
+  sortT();
+    }
 
-// }
+  
 
 clearFields() {
   document.getElementById('title').value = '';
@@ -209,6 +250,25 @@ document.getElementById('book-form').addEventListener('submit', function(e){
 // filter Books
 const ui = new UI;
 ui.filterBooks();
+
+
+
+// sort books by title
+document.getElementById('book-title').addEventListener('click', function(){
+  const ui = new UI;
+  ui.sortBooks(0);
+})
+// sort books by author
+document.getElementById('book-author').addEventListener('click', function(){
+  const ui = new UI;
+  ui.sortBooks(1);
+})
+// sort books by isbn
+document.getElementById('book-isbn').addEventListener('click', function(){
+  const ui = new UI;
+  ui.sortBooks(2);
+})
+
 
 // event listener for delete
 document.getElementById('book-list').addEventListener('click', function(e){
