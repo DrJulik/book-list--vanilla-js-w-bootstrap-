@@ -61,13 +61,12 @@ class UI {
     }
 }
 
-  filterBooks(n) {
+  filterBooks(n,inputField) {
 
-    document.getElementById('filter').addEventListener('keyup', function(){
-
+    function filterB() {
       // vars
       let i,
-        input = document.getElementById('filter'),
+        input = inputField,
         filter = input.value.toUpperCase(),
         bookList = document.getElementById('book-list'),
         bookRow = bookList.getElementsByClassName('book-entry');
@@ -86,10 +85,8 @@ class UI {
       }
       }
     }
-      
-      
-    })
-
+    }
+    filterB();
 }
 
 sortBooks(n) {
@@ -247,10 +244,22 @@ document.getElementById('book-form').addEventListener('submit', function(e){
 });
 
 
-// search for Books
-document.getElementById('filter').addEventListener('keyup', function(){
+// search for Book title
+document.getElementById('filter-title').addEventListener('keyup', function(){
   const ui = new UI;
-  ui.filterBooks(0);
+  ui.filterBooks(0, document.getElementById('filter-title'));
+})
+
+// search for Book title
+document.getElementById('filter-author').addEventListener('keyup', function(){
+  const ui = new UI;
+  ui.filterBooks(1, document.getElementById('filter-author'));
+})
+
+// search for Book title
+document.getElementById('filter-isbn').addEventListener('keyup', function(){
+  const ui = new UI;
+  ui.filterBooks(2, document.getElementById('filter-isbn'));
 })
 
 
