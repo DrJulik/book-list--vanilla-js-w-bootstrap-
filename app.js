@@ -61,34 +61,34 @@ class UI {
     }
 }
 
-filterBooks() {
+  filterBooks(n) {
 
-  document.getElementById('filter').addEventListener('keyup', function(){
+    document.getElementById('filter').addEventListener('keyup', function(){
 
-    // vars
-    let i,
-      input = document.getElementById('filter'),
-      filter = input.value.toUpperCase(),
-      bookList = document.getElementById('book-list'),
-      bookRow = bookList.getElementsByClassName('book-entry');
+      // vars
+      let i,
+        input = document.getElementById('filter'),
+        filter = input.value.toUpperCase(),
+        bookList = document.getElementById('book-list'),
+        bookRow = bookList.getElementsByClassName('book-entry');
 
-    // loop through
-    for (i = 0; i < bookRow.length; i++) {
-      let td = bookRow[i].getElementsByClassName("item")[0];
+      // loop through rows
+      for (i = 0; i < bookRow.length; i++) {
+        let td = bookRow[i].getElementsByClassName("item")[n];
 
+        
+      if (td) {
+        let txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        bookRow[i].style.display = "";
+      } else {
+        bookRow[i].style.display = "none";
+      }
+      }
+    }
       
-    if (td) {
-      let txtValue = td.textContent || td.innerText;
-    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      bookRow[i].style.display = "";
-    } else {
-      bookRow[i].style.display = "none";
-    }
-    }
-   }
-    
-    
-  })
+      
+    })
 
 }
 
@@ -247,9 +247,13 @@ document.getElementById('book-form').addEventListener('submit', function(e){
 });
 
 
-// filter Books
-const ui = new UI;
-ui.filterBooks();
+// search for Books
+document.getElementById('filter').addEventListener('keyup', function(){
+  const ui = new UI;
+  ui.filterBooks(0);
+})
+
+
 
 
 
